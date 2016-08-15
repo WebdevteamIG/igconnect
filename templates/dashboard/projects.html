@@ -1,0 +1,283 @@
+
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+Projects
+{% endblock %}
+{% block content %}
+
+{% csrf_token %}
+<script type="text/javascript" src = "{% static 'js/dashboard/main.js' %}"></script>
+
+<!-- <h5>Projects - (Showing {{projects|length}} projects )<a href="addProject/">Add project</a></h5> --> 
+<div class = "section"></div>
+<div class="row thin-letters-3">
+	<div class="col s12 m6 l6 offset-m1 offset-l1 projectList" pageNo = '2' cpageNo ="1">
+		<div class = "row">
+			<div class = "col m4 l4">
+				<span class = "thin-letters-2" style = "font-size:40px">Projects</span> 
+			</div>
+			<div class = "col m2 l2 offset-l6 offset-m6">
+				<!-- <a class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">add</i></a> -->
+				<a href="addProject/" class="btn-floating btn-large tooltipped waves-effect waves-light teal" data-position="bottom" data-delay="50" data-tooltip="Add Project"><i class="material-icons">add</i></a>
+			</div>
+
+		</div>
+		<div class = "divider"></div>
+		<div class = "section"></div>
+		<div class = "progress green" id = "loader" >
+			<div class="determinate green" style="width: 70%"></div>
+		</div>
+		<div class = "all">
+		{% for project in projects %}
+		<div class = "row">
+			<a href="viewProject/?projectId={{project.id}}" target="_blank">
+				<script>
+					colorDiv();
+				</script>
+
+				<div class="card-content">
+					<div class = "row">
+						<span class="card-title">{{project.projectName}}</span>
+						<div class = "divider"></div>
+						<div class = "section"></div>
+						<p><b>{{project.user.first_name}} {{project.user.last_name}}</b></p>
+						<p class = "desp">{{project.projectDescription}}</p>
+					</div>
+					<div class = "row" style = "margin-bottom:0;margin-left:-10px">
+						<div class = "col m6 s6 l6">
+							<p class="white-text ">
+								{% if project.publishedDate %}
+								Published on : {{project.publishedDate}}
+								{% endif %}
+								<br/>
+								{%if not project.rating2 == "0.0"%}
+								Rated {{project.rating2}} by {{project.ratingCount}} users
+								{%else%}
+								No Ratings for this project. Be the first one to rate
+								{%endif%}
+							</p>
+					</div>
+					<div class = "col m6 s6 l6">
+							{% for i in project.rating %}
+							<i class="stars material-icons white-text small" style = "float:right;font-size:20px">stars</i>
+							{%endfor%}
+							<div class = "section"></div>
+							 <i  style = "float:right" class="rate-btn ratemodalopener btn-floating tooltipped waves-effect waves-light " project="{{project.id}}" data-position="bottom" data-delay="50" data-tooltip="Rate Project"><i class="material-icons">stars</i></i>
+					</div>
+				</div>
+			</div>
+				
+						
+					
+					
+
+
+				<div class="card-action">
+					{% for skill in project.skillList %}
+					<div class="chip skill" skillName = "{{skill.skillName}}">
+						{{skill.skillName}}
+					</div>
+					{% endfor %}
+
+				</div>
+			</div>
+		</div>
+	</a>
+	<script>	
+		$(".desp").text(function(index, currentText) {
+			return currentText.substr(0, 180);
+		});
+	</script>
+
+	{% endfor %}
+	</div>
+	<div class = "loadMore col offset-m4 offset-s4" style="cursor:pointer"><a class="waves-effect waves-light btn"><i class="material-icons right">system_update_alt</i>Load More</a></div>
+
+</div>
+<div class = "col m4 l4 s12 offset-l1 offset-m1">
+	<!-- Search bar starts -->
+	<div class = "row">
+		<nav class = "col m10 l10 s10 green lighten-1">
+			<div class="nav-wrapper">
+				<form class = "searchForm" action = "{% url 'searchig:queryFromDash'%}" method = "get">
+					<div class="input-field">
+						<input id="search" name="search" class="searchWords" type="search" placeholder = "Search" required>
+						<label for="search"><a class = "submitAnchor"><i class="material-icons" style= "cursor:pointer">search</i></a></label>
+						<i class="material-icons">close</i>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Department categorisation -->
+	<div class = "row">
+		<div class = "col m10 l10 s10 branchBox">
+
+			<div class="row collapsible">
+				<p class = "thin-letters-1" style="font-size:15px;padding-left:8%"><b>Category</b></p>
+				<div class = "row" style = "padding-left:8%">
+				<ul>
+					<li>
+						<div class="collapsible-"> 
+							<p>
+     					 		<input type="checkbox" id = "c1" branchId = "0" checked = "1"/>
+     					 		<label class = "thin-letters-3" for="c1">All</label>
+    						</p>
+    				</div>
+
+					</li>
+
+					<li>
+						<div class="collapsible-"> 
+							<p>
+     					 		<input type="checkbox" id="c2" branchId = "1"/>
+     					 		<label class = "thin-letters-3" for="c2">Civil Enginnering</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c3" branchId  = "2"/>
+     					 		<label for="c3">Mechanical Engineering</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c4" branchId = "3"/>
+     					 		<label for="c4">EEE</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c5" branchId= "4"/>
+     					 		<label for="c5">ECE</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c6" branchId = "5"/>
+     					 		<label for="c6">CSE</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c7" branchId = "6"/>
+     					 		<label for="c7">Chemical Engineering</label>
+    						</p>
+    				</div>
+
+					</li>
+					<li>
+						<div class=""> 
+							<p>
+     					 		<input type="checkbox" id="c8" branchId = "7" />
+     					 		<label for="c8">Bio Technology</label>
+    						</p>
+    				</div>
+
+					</li>
+					
+				</ul>
+			</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- similar users -->
+	<div class = "row">
+		<div class = "col m10 l10 s10" style="padding:0">
+
+			<div class="row collapsible" data-collapsible="accordion">
+				<p class = "thin-letters-3" style="font-size:15px;padding-left:8%"><b>Similar Users</b></p>
+
+				<ul>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_identity</i>First</div>
+
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_identity</i>Second</div>
+
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_identity</i>Third</div>
+
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Popular projects -->
+	<div class = "row">
+		<div class = "col m10 l10 s10" style="padding:0">
+
+			<div class="row collapsible" data-collapsible="accordion">
+				<p class = "thin-letters-3" style="font-size:15px;padding-left:8%"><b>Popular Projects</b></p>
+
+				<ul>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_media</i>First</div>
+
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_media</i>Second</div>
+
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="material-icons">perm_media</i>Third</div>
+
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+</div>
+<div id="ratemodal" class="modal ">
+	<div class="modal-content" style="cursor:pointer">
+		<div class="row">
+			<div class="center-align" >
+				{% for i in "xxxxx" %}
+				<i class="large stars material-icons" id="">stars</i>
+				{%endfor%}
+			</div>
+		</div>
+
+		
+	</div>
+	
+</div>
+
+
+
+
+<script type="text/javascript">
+	
+
+</script>
+
+
+
+
+
+{% endblock%}

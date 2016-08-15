@@ -1,0 +1,235 @@
+
+{% extends 'base/base.html' %}
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+{% endif %}
+{% load staticfiles %}
+<div class = "container thin-letters-3">
+<div class = "row">
+<div class='col m8 l8 s8 offset-m2 offset-l2'>	
+	{% csrf_token %}
+	<div class = "row center-align">
+		<h3 class = "thin-letters-3" >Add Project</h3>
+	</div>
+	<div class = "divider"></div>
+	<div class = "section"></div>
+	<div class = "row">
+		<div class="input-field">
+			<input type="text" class="validate" name="projectName" id="projectName"required="true">
+			<label for="projectName">Project Name</label>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="input-field">
+			<textarea id="projectDescription" class="materialize-textarea"></textarea>
+			<label for="description">Project Description</label>
+		</div>
+	</div>
+
+	<div class="row">
+		
+			<h4>Technologies Used</h4>
+			<table id="skills">
+				<thead>
+					<tr>
+						<th>Technologies</th>
+						<th>Working with</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for skill in skills %}
+					<tr>
+						<td>{{skill.skillName}}</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" skillId={{skill.id}}>
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+	</div>
+
+	<div class="row">
+		
+			<h4>Contributors</h4>
+			{% if users|length == 0%}
+				<p>There are no registered users yet.</p>
+			</div></div>
+			{% else %}
+			<table id="contributers">
+				<thead>
+					<tr>
+						<th>Users</th>
+						<th>Working with</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for user in users %}
+					<tr>
+						<td>{{user.username}} {% if user.username == username%}(Me){% endif %}</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" username={{user.username}} {% if user.username == username%}checked disabled{% endif %}>
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		
+	</div>
+	{% endif %}	
+
+		<div class="row">
+		
+			<h4>Branch Affiliation</h4>
+			<table id="branches">
+				<thead>
+					<tr>
+						<th>Branches</th>
+						<th>Related</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Civil Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="1">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Mechanical Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="2">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Electical and Electronics Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="3">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Electronics and Communication Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="4">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Computer Science and Engineering Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="5">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Chemical Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId="6">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>Bio Technology</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId = "7">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+						<tr>
+						<td>Metallurgical and Material Engineering</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" branchId = "8">
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+
+
+	<div class = "row">
+		<div class="col s6">
+			<button class="btn waves-effect waves-light" id="addProject" type="button">Add Project</button>
+		</div>
+	</div>
+</div>
+
+</div>
+<script type="text/javascript" src = "{% static 'js/dashboard/main.js' %}"></script>
+</div>
+
+{% endblock %}

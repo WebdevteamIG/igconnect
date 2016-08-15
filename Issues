@@ -1,0 +1,14 @@
+1.when csrf fails and if I go into signup page, it redirects me to dashboard
+2.published date in project objects are null --> maybe solved, needs testing
+3.viewProject.html, for edit description we need a textarea -->solved but the design ain't good
+4. Pagination needs to be added --> Done
+
+5. Similar projects to be added(phase 2)
+6. Similar users to be added(phase 2)
+7. popular projects to be added(phase 2)
+
+8.(BUG) on clicking rate button project page gets opened -->solved
+9.(optimisation) In main.js, in all edit functions we're reloading the page onsuccess instead we can do DOM manipulation to change the values in the page(phase 2)
+
+10. Add clear chat option
+11. Add send message button inside message index

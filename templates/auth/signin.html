@@ -1,0 +1,124 @@
+<html>
+	{% load staticfiles %}
+	<head>
+			<title>IgConnect</title>
+			<script type="text/javascript" src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+			  <script type="text/javascript" src = "{% static 'css/materialize/js/materialize.min.js' %}"></script>
+			  <link rel="stylesheet" type="text/css" href="{% static 'css/materialize/css/materialize.min.css' %}" />
+			  
+			  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> 
+			  
+			  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+	<style>
+		#toast-container {
+ 			 top: auto;
+  			 right: auto;
+  			 top: 45%;
+  			 left:35%;
+		}
+	</style>
+	</head>
+	<body>
+	<div class = "header green darken-1">
+		<div class = "row">
+		<div class = "menu col s6 m6 l6">
+			<div><span class = "cirularBorder">IG</span></div>
+		<div class = "lowerPortion col s6 m8 l8 left-align">
+			<span class = "large thin-letters-2">IG Connect</span>
+			<span style = "font-weight:100;font-size:25px;">a platform to connect innovators</span>
+			<div class = "divider"></div>
+			<div class = "section"></div>
+			<div class = "row thin-letters-3">
+				Don't have an account?  &nbsp &nbsp
+			
+			<button class = "btn green darken-4 thin-letters-3" onclick = "javascript: window.location = '{% url 'auth:signup' %}'">Sign Up</button>
+			</div>
+		</div>
+		</div>
+		
+		
+		<div class = "smallIcons col s6 m6 l6 right-align">
+		<div class = "row">		
+			<i class="material-icons">insert_chart</i>
+			<i class = "material-icons">textsms</i>
+			<i class = "material-icons">contact_phone</i>
+			<i class = "material-icons">clear_all</i>
+			<i class = "material-icons">voicemail</i>
+			<i class = "large material-icons">code</i>
+			<i class = "material-icons">play_for_work</i>
+			<i class = "material-icons">alarm_off</i>
+			<i class = "medium material-icons">chat_bubble</i>
+			<i class = "material-icons">tab</i>
+	</div>
+		<!-- <div class = "row"> -->
+			<i class = "material-icons">hearing</i>
+			<i class = "material-icons">android</i>
+			
+			<i class = "material-icons">view_module</i>
+			<i class = "large material-icons">games</i>
+			<i class = "material-icons">search</i>
+			<i class = "material-icons">settings_bluetooth</i>
+			<i class = "material-icons">trending_up</i>
+			<i class = "material-icons">work</i>
+			<i class = "material-icons">settings_cell</i>
+			<i class = "material-icons">my_location</i>
+			<i class = "material-icons">video_library</i>
+			<i class = "material-icons">videocam</i>
+			<i class = "material-icons">reorder</i>
+			<i class = "material-icons">zoom_out</i>
+			<i class = "material-icons">dns</i>
+			<i class = "material-icons">room</i>
+			<i class = "large  material-icons">android</i>
+			<i class = "material-icons">mic_none</i>
+			<i class = "material-icons">pause</i>
+			<i class = "material-icons">phonelink_setup</i>
+			<i class = "material-icons">person_pin</i>
+			<i class = "material-icons">queue_music</i>
+			<i class = "medium material-icons">settings</i>
+			<i class = "material-icons">verified_user</i>
+
+		<!-- </div> -->
+
+		</div>
+	
+	</div>
+	</div>
+
+{% block content %}
+<div class = "container">
+{% if error  %}
+  <script type="text/javascript">
+  Materialize.toast('Invalid username or password. Please try again.',20000, 'red');
+  </script>
+{% endif %}
+<div class = "row section">
+	<form class = "col s12" action = "{% url 'auth:signin' %}" method = "post">
+		{% csrf_token %}
+		<div class = "row">
+			<div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+				<i class="mdi-social-person-outline prefix"></i>
+
+				<input type="text" class="validate" name = "username" required="">
+				<label class = "row thin-letters-3" for="first_name">Username</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+				<i class="mdi-action-lock-outline prefix"></i>
+				<input type="password" class="validate" name = "password" required="">
+				<label class = "row thin-letters-3" for="first_name">password</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field col s12 m3 l3 offset-m3 offset-l3">
+				<input type="submit" class="thin-letters-3 btn validate green darken-4 offset-m6 offset-l6" name = "Sign up" value = "Sign In">
+				
+			</div>
+		</div>
+	</form>
+</div>
+
+</div>
+</body>
+{% endblock %}
+<html>

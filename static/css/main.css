@@ -1,0 +1,56 @@
+.centerDiv{
+	margin: 0 auto;
+	float: none;
+}
+
+.cirularBorder{
+	border-radius: 50%;
+  	border: 1px solid #FFFFFF;
+  	padding: 5px;
+  	margin-left: 20px;
+  	margin-top: 50px;
+  	font-weight: 100;
+  	font-size: 50px;
+}
+
+.header{
+	color: #FFFFFF;
+	min-height: 250px;
+}
+
+.large{
+	font-size: 80px;
+	font-weight: 300;
+}
+
+.smallIcons{
+	float:right;
+	font-size: 40px;
+	font-weight: 100;	
+	opacity: 0.5;
+}
+
+.triangle {
+    float:left;
+    margin:0.5%;
+}
+
+.triangle-down {
+    width: 10%;
+    height: 0;
+    padding-left:10%;
+    padding-top: 10%;
+    overflow: hidden;
+}
+
+.thin-letters{
+	font-weight: 100;
+}
+
+.thin-letters-2{
+	font-weight: 200;
+}
+
+.thin-letters-3{
+	font-weight: 300;
+}

@@ -1,0 +1,100 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+{% if chat.sender.username == name %}
+{{chat.receiver}}
+{% else %}
+{{chat.sender}}
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+{% endif %}
+
+<style type="text/css">
+	h4,p{
+		font-weight: 300
+	}
+</style>
+{% csrf_token %}
+<div class="container">
+
+	<div class="row chatlist">
+		<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+		{% for message in chat.messages %}
+        
+		<div class="card white-text ">
+			<div class="card-content">
+				<a href = "/profile/view/{{message.sender}}" class = "white-text">
+				<span class="card-title"><i class="material-icons">perm_identity</i>
+				<span class="font-size:20px">{{message.sender}}</span></a>
+				</span>
+				<br/>
+				<div class="divider"></div>
+				<br/>
+				<p style="word-wrap: break-word;">{{message.body}} </p><br/>
+                <div class="right-align ">
+                    {% if message.time %}
+                    <div class="chip">
+                        Sent at : {{message.time}}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    <div class="row">
+     <div class="input-field col s11">
+      <i class="material-icons prefix">mode_edit</i>
+      <textarea id="body" class="materialize-textarea"></textarea>
+      <label for="body">Message to {{to}}</label>
+  </div>
+
+  <div class="col s1">
+      <br/>
+      <button class="btn-floating btn-large waves-effect waves-light" id="send-in-chat" to="{{to}}" from="{{from}}">
+       <i class="material-icons right">send</i>
+   </button>
+</div>
+
+<!-- send message modal  -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<script type="text/javascript" src = "{% static 'js/sendmessage.js' %}"></script>
+<script type="text/javascript">
+	var i=0;
+	$(document).ready(function(){
+		window.scrollTo(0,document.body.scrollHeight);
+	});
+	$('.card').each(function(){
+		var x=i%3;
+		if(x==0)
+			$(this).addClass('teal lighten-2');
+		else if(x==1)
+			$(this).addClass('green lighten-2');
+		else
+			$(this).addClass('red lighten-2');
+		i++;
+	})
+</script>
+{%endblock%}
+
+
+

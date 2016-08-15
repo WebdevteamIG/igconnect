@@ -1,0 +1,26 @@
+{"_id":{"$oid":"5698d105642bfa4e7648b4f2"},"skillName":"C++"}
+{"_id":{"$oid":"5698d108642bfa4e7648b4f4"},"skillName":"C"}
+{"_id":{"$oid":"5698d166642bfa4ed772e517"},"skillName":"Python"}
+{"_id":{"$oid":"5698d1b9642bfa4e7648b4f6"},"skillName":"JAVA"}
+{"_id":{"$oid":"5698d1cf642bfa4ed772e518"},"skillName":"Django"}
+{"_id":{"$oid":"5698d1d6642bfa4ed772e519"},"skillName":"PHP"}
+{"_id":{"$oid":"5698d1dd642bfa4ed772e51a"},"skillName":"Matlab"}
+{"_id":{"$oid":"5698d1e5642bfa4ed772e51b"},"skillName":"Photoshop"}
+{"_id":{"$oid":"5698d1ec642bfa4ed772e51c"},"skillName":"OpenCV"}
+{"_id":{"$oid":"5698d1f3642bfa4ed772e51d"},"skillName":"AutoCAD"}
+{"_id":{"$oid":"5698d1f7642bfa4ed772e51e"},"skillName":"AutoDesk"}
+{"_id":{"$oid":"5698d201642bfa4ed772e51f"},"skillName":"Hadoop"}
+{"_id":{"$oid":"5698d20a642bfa4ed772e520"},"skillName":"Machine Learning"}
+{"_id":{"$oid":"5698d212642bfa4ed772e521"},"skillName":"Image Processing"}
+{"_id":{"$oid":"5698d221642bfa4ed772e522"},"skillName":"MySQL"}
+{"_id":{"$oid":"5698d22a642bfa4ed772e523"},"skillName":"Oracle"}
+{"_id":{"$oid":"5698d236642bfa4ed772e524"},"skillName":"NoSQL"}
+{"_id":{"$oid":"5698d25c642bfa4ed772e525"},"skillName":"Micro Controllers"}
+{"_id":{"$oid":"5698d266642bfa4ed772e526"},"skillName":"Operating Systems"}
+{"_id":{"$oid":"5698d273642bfa4ed772e527"},"skillName":"Android"}
+{"_id":{"$oid":"5698d278642bfa4ed772e528"},"skillName":"Linux"}
+{"_id":{"$oid":"5698d27e642bfa4ed772e529"},"skillName":"iOS"}
+{"_id":{"$oid":"5698d282642bfa4ed772e52a"},"skillName":"Windows"}
+{"_id":{"$oid":"5698d28e642bfa4ed772e52b"},"skillName":"IoT"}
+{"_id":{"$oid":"5698d29d642bfa4ed772e52c"},"skillName":"SolidWorks"}
+{"_id":{"$oid":"5698d2a4642bfa4ed772e52d"},"skillName":"Sketch"}

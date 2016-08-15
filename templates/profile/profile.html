@@ -1,0 +1,157 @@
+{% extends 'base/base.html' %}
+{% block title %}
+	Profile
+{% endblock %}
+{% load staticfiles %}
+{% block content %}
+{% csrf_token %}
+<div class = "container">
+	<div class = "row thin-letters-3">
+		<div class = "col s12 m4 s4">
+			<div class="row">
+				<div class="col s12 m12 l12">
+					<div class="card">
+						<div class="card-image">
+							{% if profilePic %}
+							<img src = "https://wsdc.nitw.ac.in/student/assets/upload/thumbs/{{userData.regNum}}.jpg" />
+							{% else %}
+								<img src="{% static 'images/profile_images/sample.png' %}">
+							{% endif %}
+							<span class="card-title"><b>{{userData.user.username}}</b></span>
+						</div>
+						<div class="card-content">
+							<p>{{userData.aboutMe}}</p>
+						</div>
+						<div class="card-action">
+							{% if user.username == userData.user.username %}
+							<button class = "btn" onclick = "javascript: window.location = '{% url 'profile:edit' %}'">Edit Profile</button>
+							{% else %}
+							
+							<a href="#">IGHANDLE</a>
+							{% if sendMessage == True %}
+								<a href="#" id="message">Send Message</a>
+							{% endif %}
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class = "col s12 m8 l8">
+			<ul class="collection">
+				<li class="collection-item avatar">
+					<i class = "material-icons circle red">perm_identity</i>
+					<span class="title"><b>Overview</b></span>
+					<p>Name: {{userData.user.first_name}} {{userData.user.last_name}}<br/>
+						Registration Number: {{userData.regNum}}<br/>
+						Branch: {{userData.branch}}<br/>
+						Year: {{userData.level}}<br/>
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+				<li class="collection-item avatar">
+					<i class="material-icons circle blue">contacts</i>
+					<span class="title"><b>Contacts</b></span>
+					<p>Email Address: {{userData.user.email}} <br>
+						Phone: {% if userData.shareNo == 1 %}
+							{{userData.phoneNo}}
+						{% else %}
+							Phone Number is private
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+				<li class="collection-item avatar">
+					<i class="material-icons circle blue">work</i>
+					<span class="title"><b>Projects</b></span>
+					<p>
+						{% if projects %}
+							{% for project in projects %}
+								<a href = "/dashboard/viewProject/?projectId={{project.id}}">{{project.projectName}}</a><br/>
+							{% endfor %}
+						{% else %}
+							None.
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+
+				<li class="collection-item avatar">
+					<i class="material-icons circle green"><b>redeem</b></i>
+					<span class="title"><b>Skills</b></span>
+					<p>
+						{% if userData.skillList %}
+							{% for skill in userData.skillList %}
+								{{skill}}<br/>
+							{% endfor %}
+						{% else %}
+							None.
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+				<li class="collection-item avatar">
+					<i class="material-icons circle purple"><b>note_add</b></i>
+					<span class="title"><b>MOOCs</b></span>
+					<p>
+						{% if userData.MOOCList %}
+							{% for MOOC in userData.MOOCList %}
+								{{MOOC}}<br/>
+							{% endfor %}
+						{% else %}
+							None.
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+				<li class="collection-item avatar">
+					<i class="material-icons circle orange">library_books</i>
+					<span class="title"><b>Research Paper</b></span>
+					<p>
+						{% if userData.researchPaperList%}
+							{% for research in userData.researchPaperList %}
+								{{research}}<br/>
+							{% endfor %}
+						{% else %}
+							None.
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+				<li class="collection-item avatar">
+					<i class="material-icons circle yellow">view_column</i>
+					<span class="title"><b>Conference Attended</b></span>
+					<p>
+						{% if userData.conferenceList %}
+							{% for conference in userData.conferenceList %}
+								{{conference}}<br/>
+							{% endfor %}
+						{% else %}
+							None.
+						{% endif %}
+					</p>
+					<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src = "{% static 'js/sendmessage.js' %}"></script>
+
+<div id="messageModal" class="modal bottom-sheet">
+	<div class="modal-content">
+		<h4 class='modal-header'>Send Message to {{userData.user.username}}</h4>
+		<div class = "row">
+			
+				<textarea class="materialize-textarea" name="body" id="body"></textarea>
+			
+		</div>
+
+	</div>
+
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-light btn green" id="send" to="{{to}}" from="{{from}}" ><i class="material-icons right">done</i>Send</a>
+	</div>
+</div>
+{% endblock %}

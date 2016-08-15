@@ -1,0 +1,75 @@
+{% extends 'base/base.html' %}
+{% block title %}
+Signup
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+  <div class="chip">
+    <div class = "material-icons">error_outline</div>{{error}}
+    <i class="material-icons">close</i>
+  </div>
+{% endif %}
+<div class = "container">
+<div class = "row">
+	<div class = "col m6 l6 s12 offset-m3 offset-l3">
+	<form class = "col s12" action = "{% url 'auth:signup' %}" method = "post">
+		{% csrf_token %}
+		<div class = "row">
+			<div class = "input-field center-align">
+				<h2 class = "thin-letters">Register</h2>
+			</div>
+			<div class = "divider"></div>
+			<div class = "section"></div>
+			<div class="input-field">
+				  <i class="prefix material-icons">perm_identity</i>
+				<input type="text" class="validate" name = "username" required="">
+				<label class = "thin-letters-3"for="first_name">Username</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field">
+				<i class = "prefix material-icons">assignment_ind</i>
+				<input type="text" class="validate" name = "firstName" required="">
+				<label class = "thin-letters-3" for="first_name">First Name</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field">
+				<i class = "prefix material-icons">supervisor_account</i>
+				<input type="text" class="validate" name = "lastName" required="">
+				<label class = "thin-letters-3" for="first_name">Last Name</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field">
+				<i class="mdi-action-lock-outline prefix"></i>
+				<input type="password" class="validate" name = "password" required="">
+				<label class = "thin-letters-3" for="first_name">password</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field">
+				<i class="mdi-action-lock-outline prefix"></i>
+				<input type="password" class="validate" name = "password2" required="">
+				<label class = "thin-letters-3" for="first_name">Re-type password</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field">
+				<i class="mdi-communication-email prefix"></i>
+				<input type="email" class="validate" name = "email" required="">
+				<label class = "thin-letters-3" for="first_name">email-address</label>
+			</div>
+		</div>
+		<div class = "row">
+			<div class="input-field s6">
+				<input type="submit" class="validate btn green darken-4 thin-letters-3" value = "Sign up">
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

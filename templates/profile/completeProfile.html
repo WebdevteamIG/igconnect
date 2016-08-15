@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+Complete Profile
+{% endblock %}
+
+{% block content %}
+<script src="{% static 'js/profile/profile.js' %}" ></script>
+<h3>Complete Your Profile</h3>
+<div class = "row">
+	<form class = "col s12 completeForm" action = "{% url 'profile:complete' %}" method = "post">
+		{% csrf_token %}
+		<div class = "row">
+			<div class="input-field col s4">
+				<input type="text" class="validate phoneNo" name = "phoneNo" required="" max-length = "10" autofocus>
+				<label for="first_name">Phone Number</label>
+			</div>
+			<div class = "row">
+				<div class="input-field col s4">
+					<div class="switch">
+						<label>
+							Share
+							<input type="checkbox">
+							<span class="lever"></span>
+							Don't share
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class = "row">
+				<div class="input-field col s12">
+					<textarea class="materialize-textarea aboutMe" max-length = "100" required=""></textarea>
+					<label for="textarea1">About Me</label>
+				</div>
+			</div>
+			<div class = "row MOOCList" count="1">
+				<input type = "button" class = "btn addMOOC" value="Add More MOOC" onclick = "addMOOC()"/>
+				<div class="input-field col s12">
+					<textarea class="materialize-textarea" id = "MOOC1" max-length = "100" required=""></textarea>
+					<label for="textarea1">MOOC</label>
+				</div>
+			</div>
+			<div class = "row researchPaperList" count="1">
+				<input type = "button" class = "btn addResearch" value="Add More Research Paper" onclick = "addResearch()"/>
+				<div class="input-field col s12">
+					<textarea class="materialize-textarea" id = "researchPaper1" max-length = "100" required=""></textarea>
+					<label for="textarea1">Reseach Paper</label>
+				</div>
+			</div>
+			<div class = "row conferenceList" count = "1">
+				<input type = "button" class = "btn addConference" value="Add More Conference" onclick="addConference()" />
+				<div class="input-field col s12">
+					<textarea class="materialize-textarea" id = "conference1" max-length = "100" required=""></textarea>
+					<label for="textarea1">Conference Attended</label>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class = "row">
+		<input class = "btn" type = "button" value = "submit" />
+	</div>
+</div>
+{% endblock %}

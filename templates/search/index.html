@@ -1,0 +1,36 @@
+{% extends 'base/base.html' %}
+{% block title %}
+	Search
+{% endblock %}
+
+{% load staticfiles %}
+
+{% block content %}
+<script src="{% static 'js/searchig/search.js' %}" ></script>
+<script src="{% static 'js/main.js' %}" ></script>
+<div class = "container" >
+	<div class = "search row">
+		<input type = "text" class = "searchbar m4 s4" placeholder = "Type what you want to search"/>
+		<button class = "btn search-btn m4 s4" onclick = "search()">Search</button>
+	</div>
+	<div class = "projects">
+		<div class="progress" id = "loader">
+	     	 <div class="determinate" style="width: 70%"></div>
+	  	</div>
+	<script type = "text/javascript">
+		$("#loader").hide();
+	</script>
+
+	</div>
+	<div class = "users">
+
+	</div>
+</div>
+	{% if searchWord %}
+		<script>
+			$('.searchbar').val("{{searchWord}}");
+			search();
+		</script>	
+	{% endif %}
+
+{% endblock %}

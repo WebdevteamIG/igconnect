@@ -1,0 +1,84 @@
+
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+Forum
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+
+
+{% endif %}
+
+<div class = "row">
+<div class='col s10'>	
+	{% csrf_token %}
+	<div class = "row">
+		<div class="input-field">
+			<input type="text" class="validate" name="threadTitle" id="threadTitle" required="true" maxlength="100">
+			<label for="threadTitle">Title</label>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="input-field">
+			<textarea id="threadQuestion" class="materialize-textarea"></textarea>
+			<label for="threadQuestion">Question</label>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col s5">
+			<h4>Tags</h4>
+			<table id="tags">
+				<thead>
+					<tr>
+						<th>Tags</th>
+						<th>Relevant</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for skill in skills %}
+					<tr>
+						<td>{{skill.skillName}}</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" skillId={{skill.id}}>
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+
+					</tr>
+
+
+
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	
+
+	<div class = "row">
+		<div class="col s6">
+			<button class="btn waves-effect waves-light" id="addThread" type="button">Create Thread</button>
+		</div>
+	</div>
+</div>
+
+</div>
+<script type="text/javascript" src = "{% static 'js/forum/main.js' %}"></script>
+
+
+{% endblock %}

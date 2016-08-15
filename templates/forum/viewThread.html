@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+{{thread.tags|first}} - {{thread.title}}
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+
+
+{% endif %}
+
+<div class="container">
+	<div class="row">
+		
+		<div class="col m1">
+			<br/>
+			Upvotes
+		</div>	
+
+		<div class="col m10">
+
+			<div class="row">
+				<h4>{{thread.title}}</h4>
+				<hr>
+			</div>
+
+			<div class="row">
+				<p>{{thread.questionText}}</p>
+			</div>
+
+			<br/>
+			{% for tag in thread.tags %}
+				<div class="chip">
+					{{tag.skillName}}
+				</div>
+				{% endfor %}
+
+			<div class="right-align">
+				<p>Asked on {{thread.publishedDate}}</p>
+				
+				<p>{{user.username}}</p>
+			</div>
+			<br>
+			<h5>{{thread.answers|length}} Answers</h5>
+			<hr>
+			
+			{% for answer in answers %}
+				<
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+

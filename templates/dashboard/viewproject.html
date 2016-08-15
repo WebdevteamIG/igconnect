@@ -1,0 +1,301 @@
+
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+{{projectName}} - {{projectUsername}}
+{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<style type="text/css">
+	.expand{
+		border-radius: 14px;
+		overflow: hidden;
+		cursor: pointer;
+	}
+	
+	p,h4,h5,h6{
+		font-weight: 300;
+	}
+
+</style>
+
+<div class='row'>
+	<div class='col m6 l6 s12 offset-m1 offset-l1'>
+		<ul class="collection">
+			<li class="collection-item avatar">
+				<i class = "material-icons circle blue">info</i>
+				<span class="title"><b>{{projectName}}</b></span>
+				<p class="expand" style="width:100%">{{projectDescription}} </p>
+			</li>
+
+			{% if skillList|length > 0 %}
+			<li class="collection-item avatar">
+				<i class = "material-icons circle orange lighten-1">settings</i>
+				<span class="title"><b>Technologies used</b></span>
+				
+				{% for skills in skillList%}
+				<p>{{skills.skillName}}</p>
+				{% endfor %}
+
+				
+			</li>
+			{% endif %}
+
+			<li class="collection-item avatar">
+				<i class = "material-icons circle yellow lighten-1">perm_identity</i>
+				<span class="title"><b>People involved</b></span>
+				<p>
+					{% for contributors in contributorList%}
+					<a href="../../profile/view/{{contributors.username}}" target="_blank">{{contributors.username}}</a><br/>
+					{% endfor %}
+				</p>
+				
+			</li>
+		</ul>
+	</div>
+	{% if fileList|length > 0 %}
+	<div class="col s12 m4">
+		<br/>
+		<div class=" valign-wrapper z-depth-1"  style="border-radius:2px">
+			<h5 class="valign center" style="width:90%">Files</h5>
+		</div>
+		<ul class="collection ">
+			{% for file in fileList%}
+			<li class="collection-item"><a target="_blank" href="../../media/{{file.document.name}}">{{file.documentName}}</a>
+				{% if isOwner == True %}<a href="#" class="secondary-content deleteFile"  documentPath="{{file.document.path}}" projectId="{{projectId}}"><i class="material-icons">delete</i></a>
+				{% endif %}
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+	
+	{% endif %}
+
+
+</div>
+
+
+</div>
+{% if isOwner == True %}
+<div class="fixed-action-btn" >
+	<a class="btn-floating btn-large teal">
+		<i class="large material-icons">mode_edit</i>
+	</a>
+	<ul>
+		<li><a class="btn-floating red btn tooltipped" id="editProjectName"data-position="left" data-delay="50" data-tooltip="Change Project Name" projectName='{{projectName}}' projectId={{projectId}}><i class="material-icons">mode_edit</i></a></li>
+		<li><a class="btn-floating green btn tooltipped" data-position="left" id="editProjectDescription"data-delay="50" data-tooltip="Change Project Description" projectId={{projectId}} projectDescription='{{projectDescription}}'><i class="material-icons">mode_comment</i></a></li>
+		<li><a class="btn-floating purple btn tooltipped" data-position="left"  id="addFiles" data-delay="50" data-tooltip="Add Files" projectId={{projectId}}><i class="large material-icons">publish</i></a></li>
+		<li><a class="btn-floating orange btn tooltipped" data-position="left" id="editContributors" data-delay="50" data-tooltip="Edit contributors" projectId={{projectId}}><i class="material-icons">group_add</i></a></li>
+		<li><a class="btn-floating yellow btn tooltipped" data-position="left" id="editSkills" data-delay="50" data-tooltip="Edit Technologies" projectId={{projectId}}><i class="material-icons">build</i></a></li>
+
+	</ul>
+</div>
+
+
+
+<div id="editProjectNameModal" class="modal bottom-sheet">
+	<div class="modal-content">
+		<h4 class='modal-header'>Project Name</h4>
+		<div class = "row">
+			<div class="input-field col s5">
+				<input type="text" class="validate" name="projectNameChange" id="projectNameChange"required="true">
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-light btn green" id="editProjectNameBtn"><i class="material-icons right">done</i>Change</a>
+	</div>
+</div>
+
+
+<div id="editProjectDescriptionModal" class="modal bottom-sheet">
+	<div class="modal-content">
+		<h4 class='modal-header'>Project Description</h4>
+		<div class = "row">
+			<div class="input-field col s12 l12 m12">
+				<textarea type="text" class="validate" name="projectDescriptionChange" id="projectDescriptionChange"required="true" width = "100%" style="height:8rem"></textarea>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-light btn green" id="editProjectDescriptionBtn"><i class="material-icons right">done</i>Change</a>
+	</div>
+</div>
+
+
+
+<div id="addFilesModal" class="modal bottom-sheet">
+	<div class="modal-content">
+
+		<form method="POST" action="{% url 'dashboard:uploadFiles' %}" enctype="multipart/form-data">
+
+			{% csrf_token %}
+			<input type="hidden" name="projectId" value="{{projectId}}">
+			<div class="row">
+				<div class="col s12 m6">
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>File</span>
+							<input type="file" name="uploadedFile" id="uploadedFile">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text" placeholder="Upload one or more files">
+						</div>
+					</div>
+
+				</div>
+				<div class="col s12 m6">
+					<div class="input-field">
+						<input type="text" class="validate" name="documentName" id="documentName"required="true" placeholder="Other poeple will see this name">
+						<label for="projectName">Document Name</label>
+					</div>
+				</div>
+				
+			</div>
+
+			<div class="modal-footer">
+				<input type="submit" class="validate btn green darken-4" name = "Upload">
+			</div>
+		</form>
+
+	</div>
+</div>
+
+
+
+<div id="editSkillsModal" class="modal modal-fixed-footer">
+	<div class="modal-content">
+
+
+		<h4>Technologies Used</h4>
+		<table id="editSkillsTable">
+			<thead>
+				<tr>
+					<th>Technologies</th>
+					<th>Working with</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for skill in addSkills %}
+				<tr>
+					<td>{{skill.skill.skillName}}</td>
+					<td>
+						<div class="switch">
+							<label>
+								Yes
+								<input type="checkbox" 
+								{% if skill.belongs == 1 %}
+								checked
+								{% endif %} skillId="{{skill.skill.id}}"
+								>
+								<span class="lever"></span>
+								No
+							</label>
+						</div>
+					</td>
+
+				</tr>
+
+
+
+				{% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-light btn green" projectId={{projectId}} id="editSkillsBtn"><i class="material-icons right">done</i>Change</a>	</div>
+
+
+	</div>
+
+</div>
+
+
+
+
+
+<div id="editContributorsModal" class="modal modal-fixed-footer">
+	<div class="modal-content">
+
+		
+		<h4>Contributors</h4>
+		<table id="editContributorsTable">
+			<thead>
+				<tr>
+					<th>Users</th>
+					<th>Working with</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for user in addContributors %}
+				<tr>
+					<td>{{user.user.username}} {% if user.user.username == username%}(Me){% endif %}</td>
+					<td>
+						<div class="switch">
+							<label>
+								Yes
+								<input type="checkbox" username={{user.user.username}} {% if user.user.username == username%}checked disabled{% endif %}>
+								<span class="lever"></span>
+								No
+							</label>
+						</div>
+					</td>
+
+				</tr>
+
+
+
+				{% endfor %}
+
+			</tbody>
+		</table>
+		
+	</div>
+
+	<div class="modal-footer">
+		<a class="waves-effect waves-light btn green" projectId={{projectId}} id="editContributorsBtn"><i class="material-icons right">done</i>Change</a>	</div>
+
+
+	</div>
+
+
+</div>
+
+
+
+{% endif %}
+
+<script type="text/javascript" src = "{% static 'js/dashboard/main.js' %}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.expand').each(function(){
+			var reducedHeight = $(this).height();
+			$(this).css('height', 'auto');
+			var fullHeight = $(this).height();
+			$(this).height(reducedHeight);
+
+			$(this).data('reducedHeight', reducedHeight);
+			$(this).data('fullHeight', fullHeight);
+			if($(this).height == $(this).data('reducedHeight'))
+				$(this).data('title','Click to expand');
+			else
+				$(this).removeAttr('title');
+		}).click(function() {
+			console.log("clicked");
+			if($(this).data('fullHeight') >= $(this).data('reducedHeight'))
+				$(this).animate({height: $(this).data('fullHeight')}, 500);
+		});
+	});
+</script>
+{% endblock %}

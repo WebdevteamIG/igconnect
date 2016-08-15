@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block title %}
+Chats
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+
+{% endif %}
+<style type="text/css">
+	h4,p{
+		font-weight: 300
+	}
+</style>
+<script type="text/javascript" src = "{% static 'js/sendmessage.js' %}"></script>
+<div class="container">
+
+	<div class="row center-align">
+		<h4>Chats</h4>	
+	</div>
+	
+	<div class="divider"></div>
+	<div class="section"></div>
+	<div class="row">
+		<div class="col m10 s12 offset-m1">
+
+			<div class = "col offset-m4 offset-s4">
+				<a class="waves-effect waves-light btn modal-trigger sendBtn">Send Message</a>
+			</div>
+			
+			<br/>
+			{% for chat,last in chats %}
+			<a href="/message/view/{{chat.id}}">
+				<div class="card">
+
+					<div class="card-content">
+						<span class="card-title">
+							{% if chat.sender.username == name %}
+							{{chat.receiver}}
+							{% else %}
+							{{chat.sender}}
+							{% endif %}
+							{%if last.receiver.username == name%}
+							{%if chat.notify > 0 %}
+							<div class="chip red">{{chat.notify}}</div>
+							{%endif%}
+							{%endif%}
+						</span>
+						<p>{{last.sender}} : {{last.body}}</p>
+					</div>
+					<div class="card-action">
+						<div class="right-align">
+							Sent on : {{last.time}}
+
+						</div>
+					</div>
+				</div>
+			</a>
+
+
+
+			{% endfor %}
+		</div>
+	</div>
+</div>
+<div id="messageModal" class="modal">
+    <div class="modal-content">
+      <label for="Name">Search</label>
+      <input placeholder="Search user" id="searchText" type="text" class="validate">
+         
+         <div class = "userList">
+         	aaa
+         </div>
+         
+    </div>
+    <div class="modal-footer">
+      <a class="waves-effect waves-light btn modal-trigger sendBtn">Send</a>
+    </div>
+  </div>
+{% endblock %}
