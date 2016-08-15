@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
+import auth.views
 from django.conf import settings
-
 from django.contrib import admin
 admin.autodiscover()
 
@@ -11,6 +11,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^auth/',include('auth.urls',namespace='auth')),
+    url(r'^$', auth.views.index),
     url(r'^forum/',include('forum.urls',namespace='forum')),
     url(r'^dashboard/',include('dashboard.urls',namespace='dashboard')),
     url(r'^message/',include('message.urls',namespace='message')),

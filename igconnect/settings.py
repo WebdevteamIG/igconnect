@@ -62,8 +62,8 @@ WSGI_APPLICATION = 'igconnect.wsgi.application'
 
 # Database Settings
 
-USERNAME_DB = 'priyam' #username for your database
-PASSWORD_DB = 'priyam123' #password for your database
+USERNAME_DB = 'dhruv2' #username for your database
+PASSWORD_DB = 'foobar' #password for your database
 DATABASES = {
     'default': {
     'ENGINE': 'django_mongodb_engine',
