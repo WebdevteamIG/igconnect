@@ -1,3 +1,5 @@
+
+
 # Create your views here.
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
@@ -62,6 +64,8 @@ def index(request,pageNo=None):
 				myUser = {
 					'first_name':project.user.first_name,
 					'last_name':project.user.last_name
+                    
+                    
 				}
 				skills = []
 				for skill in project.skillList:

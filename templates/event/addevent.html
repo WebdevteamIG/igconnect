@@ -1,0 +1,136 @@
+
+
+
+
+{% extends 'base/base.html' %}
+{% block title %}
+Add Event
+{% endblock %}
+
+{% block content %}
+{% if error  %}
+<div class="chip">
+	<div class = "material-icons">error_outline</div>{{error}}
+	<i class="material-icons">close</i>
+</div>
+{% endif %}
+{% load staticfiles %}
+<div class = "container thin-letters-3">
+<div class = "row">
+<div class='col m8 l8 s8 offset-m2 offset-l2'>	
+	{% csrf_token %}
+	<div class = "row center-align">
+		<h3 class = "thin-letters-3" >Add Event</h3>
+	</div>
+	<div class = "divider"></div>
+	<div class = "section"></div>
+	<div class = "row">
+		<div class="input-field">
+			<input type="text" class="validate" name="eventname" id="eventname" required="true">
+			<label for="eventname">Event Name</label>
+		</div>
+	</div>
+	<div class = "row">
+		<div class="input-field">
+			<textarea id="eventDescription" class="materialize-textarea"></textarea>
+			<label for="description">Event Description</label>
+		</div>
+	</div>
+
+    <div class = "row">
+		<div class="input-field col s6 m6 l6">
+            <label for="startdate">Start Date</label>
+            <input type="date" class="datepicker" id="sdate">
+		</div>
+        <div class="input-field col s6 m6 l6">
+			<label for="enddate">End Date</label>
+            <input type="date" class="datepicker" id="edate">
+		</div>
+	</div>
+    
+    <div class = "row">
+		<div class="input-field">
+			<textarea id="organiser" class="materialize-textarea"></textarea>
+			<label for="organiser">Organiser</label>
+		</div>
+	</div>
+
+	<div class="row">
+		
+			<h4>Technologies to be Used</h4>
+			<table id="skills">
+				<thead>
+					<tr>
+						<th>Technologies</th>
+						<th>Working with</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for skill in skills %}
+					<tr>
+						<td>{{skill.skillName}}</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" skillId={{skill.id}}>
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+	</div>
+
+	<div class="row">
+		
+			<h4>Mentors</h4>
+			{% if users|length == 0%}
+				<p>There are no registered users yet.</p>
+			</div></div>
+			{% else %}
+			<table id="mentors">
+				<thead>
+					<tr>
+						<th>Users</th>
+						<th>Working with</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for user in users %}
+					<tr>
+						<td>{{user.username}} {% if user.username == username%}(Me){% endif %}</td>
+						<td>
+							<div class="switch">
+								<label>
+									No
+									<input type="checkbox" username={{user.username}} {% if user.username == username%}checked disabled{% endif %}>
+									<span class="lever"></span>
+									Yes
+								</label>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		
+	</div>
+	{% endif %}	
+
+	<div class = "row">
+		<div class="col s6">
+			<button class="btn waves-effect waves-light" id="addEvent" type="button">Add Event</button>
+		</div>
+	</div>
+</div>
+
+<div>
+<script type="text/javascript" src = "{% static 'js/event/main.js' %}"></script>
+</div>
+
+{% endblock %}

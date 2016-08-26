@@ -1,0 +1,26 @@
+from __future__ import unicode_literals
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class User(models.Model):
+	year_choice = (
+	   (1,'1'),
+	   (2,'2'),
+	   (3,'3'),
+	   (4,'4'),
+	)	
+
+	user_name=models.CharField(max_length=40)
+	user_rollno=models.IntegerField(primary_key=True)
+	user_year=models.IntegerField(choices=year_choice)
+	user_password=models.CharField(max_length=20, default='abc123')
+
+	def _str_(self) :
+		return self.user_name
+	
+class information(models.Model):
+	user=models.OneToOneField(User,on_delete=models.CASCADE)
+	rollno=models.IntegerField()
+	year=models.IntegerField(choices=year_choice)
+	contact=models.IntegerField()

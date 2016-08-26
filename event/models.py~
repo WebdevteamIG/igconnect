@@ -1,0 +1,30 @@
+from django.db import models
+from django.contrib.auth.models import User
+from djangotoolbox.fields import ListField,EmbeddedModelField
+from django.core import serializers
+from django_mongodb_engine.contrib import MongoDBManager
+from django.utils.formats import get_format
+# Create your models here.
+
+class Event(models.Model):
+	eventName = models.CharField(max_length=50)
+	startdate = models.DateField()
+	enddate = models.DateField()
+	place = models.CharField(max_length=50)
+	organiser = models.CharField(max_length=50)
+	avgRating = models.FloatField(default=0.0)
+	ratingCount = models.IntegerField(default=0)
+	ratings = ListField(EmbeddedModelField('ERating'))
+	mentorlist = ListField(EmbeddedModelField(User))
+	
+	def __str__(self):
+		return self.eventName
+	
+
+class ERating(models.Model):
+    user = models.OneToOneField(User,related_name='+')
+    event = models.OneToOneField(Event,related_name='+')
+    rating = models.FloatField()
+
+
+#blank=True, null=True, input_formats=['%d %b %Y'] 

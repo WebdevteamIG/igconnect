@@ -1,3 +1,5 @@
+
+
 {% extends 'base/base.html' %}
 {% block title %}
 	Search
@@ -22,6 +24,17 @@
 	</script>
 
 	</div>
+    
+    <div class = "events">
+		<div class="progress" id = "loader">
+	     	 <div class="determinate" style="width: 70%"></div>
+	  	</div>
+	<script type = "text/javascript">
+		$("#loader").hide();
+	</script>
+
+	</div>
+    
 	<div class = "users">
 
 	</div>

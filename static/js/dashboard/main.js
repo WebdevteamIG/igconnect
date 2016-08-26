@@ -1,3 +1,5 @@
+
+
 var uniqueID = (function() { 
  var id = 0; 
  return function() { return id++; }; 
@@ -11,7 +13,7 @@ function colorDiv(){
         document.write('<div class="card teal lighten-1 white-text z-depth-2">');
     else if(x % 3 == 2)
        document.write('<div class="card red lighten-2 white-text z-depth-2">');
-}
+}   
 
 $(document).ready(function(){
     $('#skills').DataTable();
@@ -288,6 +290,7 @@ $('.loadMore').click(function(){
         //console.log('no checked');
         loadMore(1);
     }
+    
 });
 
 });

@@ -1,3 +1,5 @@
+
+
 {% load staticfiles %}
 <head>
   <title>{% block title %}{% endblock %}</title>
@@ -17,12 +19,15 @@
   <li><a href="/auth/signout">Logout</a></li>
   
 </ul>
+<div class="navbar-fixed">
 <nav>
-  <div class="nav-wrapper  green darken-1">
-    <a href="#!" class="brand-logo">IGConnect</a>
+  <div class="nav-wrapper green darken-1">
+    <a href="#!" class="brand-logo" style="padding-left:20px">IGConnect</a>
     <ul class="right hide-on-med-and-down">
      
       <li><a href="/dashboard"><i class="material-icons left">store</i>Home</a></li>
+        
+      <li><a href="/event"><i class="material-icons left">explicit</i>Event</a></li>
 
       <li><a href="/profile/view/"><i class="material-icons left">person_pin</i>Profile</a></li>
 
@@ -33,6 +38,7 @@
     </ul>
   </div>
 </nav>
+</div>
 
 {%block content %}
 {% endblock %}

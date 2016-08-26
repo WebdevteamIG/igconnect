@@ -1,4 +1,6 @@
 
+
+
 function domManipulate(data){
 
     if(data.length == 0)
@@ -6,18 +8,21 @@ function domManipulate(data){
         $('.projects').append('Nothing found..');
         return;
     }
-
+    
     $('.projects').html('');
     $('.users').html('');
+    $('.events').html('');
     //console.log(data);
     jsonData = JSON.parse(data);
     projects = JSON.parse(jsonData['projects']);
+    events = JSON.parse(jsonData['events']);
     users = JSON.parse(jsonData['users']);
-    if(users.length == 0 && projects.length == 0){
+    if(users.length == 0 && projects.length == 0 && events.length ==0){
 
         alert("Nothing Found\n");
         return;
     }
+    
     $('.projects').append("<h6>Projects: </h6> <div class='divider'></div>")
     if(projects.length == 0)
         $('.projects').append('<p><b>No project found</b></p>');
@@ -32,6 +37,22 @@ function domManipulate(data){
         toAppend = "<div class='card blue-grey darken-1 col s12 m6 offset-s1'><div class='card-content white-text'><h5>" +projects[i]['projectName'] +"</h5><p>" + projects[i]['projectDescription'] + "</p><span class='card-title'>Skills</span><br/>"+ skills +" </div><div class='card-action'><a href = '../dashboard/viewProject/?projectId=" + projects[i]['_id']['$oid'] +"' ><button  projectId= "+ projects[i]['_id']['$oid'] + " class='btn waves-effect waves-light viewProject'  type='button'>View Project</button></a></div> </div>"
         $('.projects').append(toAppend);
     }
+    
+    $('.events').append("<h6>Events: </h6> <div class='divider'></div>")
+    if(events.length == 0)
+        $('.events').append('<p><b>No event found</b></p>');
+
+    for(var i = 0;i<events.length;i++){
+        skills = "";
+        for(var j = 0;j<events[i]['skillList'].length;j++){
+            skills += events[i]['skillList'][j].skillName;
+            skills += " " 
+        }
+       // console.log(projects[i]['_id']['$oid'])
+        toAppend = "<div class='card blue-grey darken-1 col s12 m6 offset-s1'><div class='card-content white-text'><h5>" +events[i]['eventName'] +"</h5><p>" + events[i]['description'] + "</p><span class='card-title'>Skills</span><br/>"+ skills +" </div><div class='card-action'><a href='#' ><button class='btn waves-effect waves-light viewEvent'  type='button'>View Event</button></a></div> </div>"
+        $('.events').append(toAppend);
+    }
+    
     $('.users').append("<h6>Users: </h6> <div class='divider'></div>")
     if(users.length == 0)
         $('.users').append('<p><b>No users found</b></p>');
@@ -69,5 +90,4 @@ function search(){
         }
     });
 }
-
 
