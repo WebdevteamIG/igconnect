@@ -1,6 +1,5 @@
 
 
-
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404,render,redirect
 from django.contrib.auth import authenticate,login
@@ -22,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
 client = pymongo.MongoClient('0.0.0.0', 27017)
 db = client.igconnect_db
-
+@csrf_exempt
 def index(request,pageNo=None):
 
     return redirect('/event/viewall')
@@ -63,18 +62,18 @@ def addEvent(request):
 			return render(request,'event/addevent.html',{'skills':skills,'users':users,'username':request.user.username});	
 		else:
 			return redirect("/auth/")
-
+@csrf_exempt
 def viewall(request,pageNo=None):
     if request.user.is_authenticated() and request.user.is_active == True:
         eventList=Event.objects.order_by('eventName')
         paginator = Paginator(eventList,3)
         
-#        if request.method == 'POST':
-#            print "hi"
-#            data = json.loads(request.POST['data'])
-#            json.dumps(data)
-#            print "see u again"
-#            return categorise(data)
+        if request.method == 'POST':
+            print "hi"
+            data = json.loads(request.POST['data'])
+            json.dumps(data)
+            print "see u again"
+            return categorise(data)
 
         if pageNo is None: 
             events = paginator.page(1)
@@ -99,8 +98,8 @@ def viewall(request,pageNo=None):
                 }
 
                 myevents.append(myEvent)
-
-            return render(request,'event/showevent.html',{'events':myevents,'username':request.user.username})
+            users=User.objects.all()
+            return render(request,'event/showevent.html',{'events':myevents,'username':request.user.username,'users':users})
         else:
             events = paginator.page(pageNo)
             eventList = events.object_list
@@ -135,23 +134,42 @@ def viewall(request,pageNo=None):
         return redirect("/auth/")
 
 
-    
+@csrf_exempt
 def categorise(data):
     eventList = set()
     times = [int(x) for x in data['eventList']]
     events=[]
-    print "hello"
-    if 1 in times:
-        upevents = Event.objects.raw_query({'startdate':{'$gt':datetime.now()}})
-    if 2 in times:
-        pastevents = Event.objects.raw_query({'startdate':{'$lt':datetime.now()}})
-
-    events.append(upevents)
-    events.append(pastevents)
-    paginator = Paginator(events,10)
+    x = datetime.now()
+    x = x.strftime("%Y-%m-%d")
+    upevents=[]
+    pastevents=[]
+    todayevents=[]
+#    print x
+#    print "hello"
+    e = Event.objects.all()
+    for event in e:
+        if 1 in times:
+            if(event.startdate.strftime("%Y-%m-%d") > x):
+                upevents.append(event)
+#                print "upcoming"
+        if 2 in times:
+            if(event.startdate.strftime("%Y-%m-%d") < x):
+                pastevents.append(event)
+#                print "past"
+        if 3 in times:
+            if(event.startdate.strftime("%Y-%m-%d") == x):
+                todayevents.append(event)
+#                print "today"
+    
+    events=[]
+    events=upevents+pastevents+todayevents
+    print events
+    print data['pageNo']
+    paginator = Paginator(events,3)
     eventList = paginator.page(data['pageNo'])
-    eventList = projectList.object_list
-    myEvent = []
+    eventList = eventList.object_list
+    myEvents = []
+#    print "lollllllz"
     for event in eventList:
         myUser = {
             'first_name':event.user.first_name,
@@ -175,7 +193,8 @@ def categorise(data):
             'skillList':skills,
             'mentorList':mentors,
         }
-        myevents.append(myEvent)
-    return HttpResponse(json.dumps(myevents),mimetype="application/json")
+        myEvents.append(myEvent)
+#    print "lol"
+    return HttpResponse(json.dumps(myEvents),mimetype="application/json")
 
 

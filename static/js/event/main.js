@@ -75,18 +75,20 @@ $(document).ready(function(){
     
 
     $('input[type="checkbox"]').click(function(){
-        
         if($(this).attr('eId') == 0){ //for ALL named checkbox
+//            console.log("here it is")
             $('input[type="checkbox"]').attr('checked',false);
             $('.all').show();
+            $('.eventList').attr('cpageNo',1);
             $('.category').hide();
             $('.loadMore').show();
             $(this).prop('checked',true);
         }
         else{
+            console.log("here it is")
             $('.all').hide();
             $('#e1').prop('checked',false);
-            $('.projectList').attr('cpageNo',1);
+            $('.eventList').attr('cpageNo',1);
             $('.category').show();
             $('.category').html(' ');
             loadMore(1);
@@ -177,7 +179,7 @@ else if(x == 1){
         dataItems = {};
         dataItems['eventList'] = timing;
         dataItems['pageNo'] = $('.eventList').attr('cpageNo');
-//        document.write("hi")
+        console.log("hi")
         $.ajax({
             type: "POST",
             url: '/event/viewall/',

@@ -1,7 +1,4 @@
 
-
-
-
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block title %}
@@ -107,12 +104,13 @@ Events
 	{% endfor %}
 	</div>
 	<div class = "loadMore col offset-m4 offset-s4" style="cursor:pointer"><a class="waves-effect waves-light btn"><i class="material-icons right">system_update_alt</i>Load More</a></div>
-
-</div>
-
-<div class="category">
     
+    <div class="category">
+    
+    </div>
+
 </div>
+
 
 <div class = "col m4 l4 s12 offset-l1 offset-m1">
 	<!-- Search bar starts -->
@@ -279,9 +277,15 @@ Events
 		<div class = "col m10 l10 s10" style="padding:0">
 
 			<div class="row collapsible" data-collapsible="accordion">
-				<p class = "thin-letters-3" style="font-size:15px;padding-left:8%"><b>Similar Users</b></p>
+				<p class = "thin-letters-3" style="font-size:15px;padding-left:8%"><b>Other Users</b></p>
 
 				<ul>
+                    {% for u in users %}
+                    <li>
+						<div class="collapsible-header"><i class="material-icons">perm_identity</i>{{u.username}}</div>
+
+					</li>
+                    {% endfor %}
 					<li>
 						<div class="collapsible-header"><i class="material-icons">perm_identity</i>First</div>
 

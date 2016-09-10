@@ -1,6 +1,5 @@
 
 
-
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block title %}
@@ -30,6 +29,8 @@ Projects
 		<div class = "progress green" id = "loader" >
 			<div class="determinate green" style="width: 70%"></div>
 		</div>
+        <div class="category">
+        </div>
 		<div class = "all">
 		{% for project in projects %}
 		<div class = "row">
@@ -70,7 +71,7 @@ Projects
 				</div>
 			</div>
 				
-						
+				<div class="category"></div>		
 					
 					
 
@@ -210,6 +211,12 @@ Projects
 				<p class = "thin-letters-3" style="font-size:15px;padding-left:8%"><b>Similar Users</b></p>
 
 				<ul>
+                    {% for u in users %}
+                    <li>
+						<div class="collapsible-header"><i class="material-icons">perm_identity</i>{{u.username}}</div>
+
+					</li>
+                    {% endfor %}
 					<li>
 						<div class="collapsible-header"><i class="material-icons">perm_identity</i>First</div>
 

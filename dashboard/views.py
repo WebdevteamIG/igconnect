@@ -53,8 +53,8 @@ def index(request,pageNo=None):
 				}
 			
 				myProjects.append(myProject)
-			
-			return render(request,'dashboard/projects.html',{'projects':myProjects,'username':request.user.username})
+			users=User.objects.all()
+			return render(request,'dashboard/projects.html',{'projects':myProjects,'username':request.user.username,'users':users})
 		else:
 			#pageNo = json.loads(pageNo['branchList'])
 			projects = paginator.page(pageNo)
@@ -87,33 +87,33 @@ def index(request,pageNo=None):
 		return redirect("/auth/")
 
 def categorise(data):
-	projectList = set()
-	branch = [int(x) for x in data['branchList']]
-	projects = Project.objects.raw_query({'branchList':{'$in':branch}})
-	paginator = Paginator(projects,10)
-	projectList = paginator.page(data['pageNo'])
-	projectList = projectList.object_list
-	myProjects = []
-	for project in projectList:
-		myUser = {
-			'first_name':project.user.first_name,
-			'last_name':project.user.last_name
-			}
-		skills = []
-		for skill in project.skillList:
-			skills.append(skill.skillName)
-		myProject = {
-			'id':project.id,
-			'user':myUser,
-			'projectName':project.projectName,
-			'projectDescription':project.projectDescription,
-			'skillList':skills,
-			'publishedDate':project.publishedDate,
-			'rating':"x"*int(project.avgRating+1),
-			'rating2':repr(round(project.avgRating,2)),
-			'ratingCount':repr(project.ratingCount)
-			}
-		myProjects.append(myProject)
+    projectList = set()
+    branch = [int(x) for x in data['branchList']]
+    projects = Project.objects.raw_query({'branchList':{'$in':branch}})
+    paginator = Paginator(projects,10)
+    projectList = paginator.page(data['pageNo'])
+    projectList = projectList.object_list
+    myProjects = []
+    for project in projectList:
+        myUser = {
+            'first_name':project.user.first_name,
+            'last_name':project.user.last_name
+            }
+        skills = []
+        for skill in project.skillList:
+            skills.append(skill.skillName)
+        myProject = {
+            'id':project.id,
+            'user':myUser,
+            'projectName':project.projectName,
+            'projectDescription':project.projectDescription,
+            'skillList':skills,
+            'publishedDate':project.publishedDate,
+            'rating':"x"*int(project.avgRating+1),
+            'rating2':repr(round(project.avgRating,2)),
+            'ratingCount':repr(project.ratingCount)
+            }
+        myProjects.append(myProject)
 	return HttpResponse(json.dumps(myProjects),mimetype="application/json")
 
 @csrf_exempt
