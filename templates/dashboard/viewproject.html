@@ -7,7 +7,13 @@
 
 {% block content %}
 {% csrf_token %}
+<!-- TODO add fields to the data base, short and long description -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 <style type="text/css">
+	html, body {
+		height: 100%;
+    	margin: 0;
+	}
 	.expand{
 		border-radius: 14px;
 		overflow: hidden;
@@ -18,65 +24,107 @@
 		font-weight: 300;
 	}
 
+	.nav-wrapper.green.darken-1{
+		background-color: #EDF3F8 !important;
+	}
+
+	.brand-logo, a {
+		color: #667989 !important;
+	}
+
+	.container {
+		min-height: 100%; 
+		min-width: 100%;
+	}
+
+	#heading{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+	    margin: 250px auto; 
+	    display: table;
+	    text-align: center;
+	    white-space:nowrap;
+	}
+	#fooContainer {
+		z-index:111;
+		position: relative;
+		width: 50%;
+	}
+	#desc{
+		position: absolute;
+		color: #627686;
+		top: 50%;
+		left: 50%;
+		margin: 350 auto;
+		font-size: 20px;
+		font-weight: 30;
+		font-family: Roboto;
+		display: table;
+	    text-align: center;
+	}
+	#scroll {
+		position: absolute;
+		margin-top: 400;
+		margin-left : 100%;
+		display: table;
+	    text-align: center;
+	}
 </style>
 
-<div class='row'>
-	<div class='col m6 l6 s12 offset-m1 offset-l1'>
-		<ul class="collection">
-			<li class="collection-item avatar">
-				<i class = "material-icons circle blue">info</i>
-				<span class="title"><b>{{projectName}}</b></span>
-				<p class="expand" style="width:100%">{{projectDescription}} </p>
-			</li>
 
-			{% if skillList|length > 0 %}
-			<li class="collection-item avatar">
-				<i class = "material-icons circle orange lighten-1">settings</i>
-				<span class="title"><b>Technologies used</b></span>
-				
-				{% for skills in skillList%}
-				<p>{{skills.skillName}}</p>
-				{% endfor %}
-
-				
-			</li>
-			{% endif %}
-
-			<li class="collection-item avatar">
-				<i class = "material-icons circle yellow lighten-1">perm_identity</i>
-				<span class="title"><b>People involved</b></span>
-				<p>
-					{% for contributors in contributorList%}
-					<a href="../../profile/view/{{contributors.username}}" target="_blank">{{contributors.username}}</a><br/>
-					{% endfor %}
-				</p>
-				
-			</li>
-		</ul>
-	</div>
-	{% if fileList|length > 0 %}
-	<div class="col s12 m4">
-		<br/>
-		<div class=" valign-wrapper z-depth-1"  style="border-radius:2px">
-			<h5 class="valign center" style="width:90%">Files</h5>
+<div class='container' style='background-color: #EDF3F8;'>
+	<div class='row' id='fooContainer'>
+		<div class='col l12 s12 m12' id='heading'>
+			<h1 style='font-weight: 300;'>{{ projectName }}</h1>
 		</div>
-		<ul class="collection ">
-			{% for file in fileList%}
-			<li class="collection-item"><a target="_blank" href="../../media/{{file.document.name}}">{{file.documentName}}</a>
-				{% if isOwner == True %}<a href="#" class="secondary-content deleteFile"  documentPath="{{file.document.path}}" projectId="{{projectId}}"><i class="material-icons">delete</i></a>
-				{% endif %}
-			</li>
-			{% endfor %}
-		</ul>
+		<div class='col s12 l12 m12' id='desc'>
+			{{ shortDesc }} <!--  TODO : Change to shortDesc-->
+		</div>
+		<div id='scroll'>
+			<a class='btn-floating btn-large' href='#info'><i class="material-icons">arrow_downward</i></a>
+		</div>
 	</div>
-	
-	{% endif %}
+	<div style="position:relative">
+		<div id="particles-js" style='z-index: -111; display: block;'></div>
+	</div>
+</div>
 
+<div class='container'>
+	<div class='row' id='info' style='font-family: "Roboto", serif;'>
+		<br>
+		<strong style="margin-left: 20px; color:#232732; font-size : 25px; font-weight:300;">{{ projectUsername }}</strong> 
+		<span style="font-weight: 300; color: #B3BDC6; font-size : 25px;">{{ publishedDate }}</span>
+		<br>
+		<span style="margin-left : 70px; font-size:48px; margin-top:-5px; font-weight:300; color:#232732; letter-spacing: -1.7px;">{{ projectName }}</span>
+		<img src='{{ projectImage.url }}' style='display:block; margin:auto;'> <!-- Have to add files -->
+	</div>
+	<br>
+	<div class='row' style='margin-left: 30px; font-family: "Montserrat", sans-serif;'>
+		<div class='col l8'>
+			<h3 style='font-weight: 300; font-size:20px;'>ABOUT</h3>
+			<p style="color: #5e7283; font-family: 'Roboto'; font-size:20px;">{{ projectDescription }}</p> 
+		</div>
+		<div class="col l4">
+			<h3 style='font-weight: 300; font-size:20px;'>SKILLS USED</h3>
+			{% for i in skillList %}
+				<span style='color: #5e7283; font-family: "Roboto"; font-size:20px;'>{{ i }}</span>
+				<br>
+			{% endfor %}
+		</div>
+	</div>
+	<hr style='color : #DDE7F0; font-size: 1px; margin-right: 15%; margin-left: 12%;'>
 
+	<div style='margin-left: 30px; font-family: "Montserrat", sans-serif;'>
+		<h2 style='font-weight: 300; font-size: 20px;'>AUTHORS</h2>
+		{% for i in contributorList %}
+			<h3 style='color: #5e7283; font-family: "Roboto"; font-size:20px;'>{{ i }}</h3>
+		{% endfor %}
+	</div>
 </div>
 
 
-</div>
+<!-- DONT TOUCH -->
 {% if isOwner == True %}
 <div class="fixed-action-btn" >
 	<a class="btn-floating btn-large teal">
@@ -91,8 +139,6 @@
 
 	</ul>
 </div>
-
-
 
 <div id="editProjectNameModal" class="modal bottom-sheet">
 	<div class="modal-content">
@@ -111,7 +157,6 @@
 	</div>
 </div>
 
-
 <div id="editProjectDescriptionModal" class="modal bottom-sheet">
 	<div class="modal-content">
 		<h4 class='modal-header'>Project Description</h4>
@@ -128,8 +173,6 @@
 		<a class="waves-effect waves-light btn green" id="editProjectDescriptionBtn"><i class="material-icons right">done</i>Change</a>
 	</div>
 </div>
-
-
 
 <div id="addFilesModal" class="modal bottom-sheet">
 	<div class="modal-content">
@@ -167,8 +210,6 @@
 
 	</div>
 </div>
-
-
 
 <div id="editSkillsModal" class="modal modal-fixed-footer">
 	<div class="modal-content">
@@ -214,15 +255,7 @@
 
 	<div class="modal-footer">
 		<a class="waves-effect waves-light btn green" projectId={{projectId}} id="editSkillsBtn"><i class="material-icons right">done</i>Change</a>	</div>
-
-
-	</div>
-
 </div>
-
-
-
-
 
 <div id="editContributorsModal" class="modal modal-fixed-footer">
 	<div class="modal-content">
@@ -265,18 +298,12 @@
 
 	<div class="modal-footer">
 		<a class="waves-effect waves-light btn green" projectId={{projectId}} id="editContributorsBtn"><i class="material-icons right">done</i>Change</a>	</div>
-
-
-	</div>
-
-
 </div>
 
-
-
-{% endif %}
+{% endif %} <!-- Till here -->
 
 <script type="text/javascript" src = "{% static 'js/dashboard/main.js' %}"></script>
+<script src = '{% static "js/particles.min.js" %}'></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.expand').each(function(){
@@ -296,6 +323,8 @@
 			if($(this).data('fullHeight') >= $(this).data('reducedHeight'))
 				$(this).animate({height: $(this).data('fullHeight')}, 500);
 		});
+
+		particlesJS.load('particles-js', '{% static "js/particles.json" %}');
 	});
 </script>
 {% endblock %}

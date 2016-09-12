@@ -13,6 +13,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> 
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+  
 </head>
 <ul id="dropdown1" class="dropdown-content">
   <li><a href="/search">Search</a></li>
@@ -22,7 +23,8 @@
 <div class="navbar-fixed">
 <nav>
   <div class="nav-wrapper green darken-1">
-    <a href="#!" class="brand-logo" style="padding-left:20px">IGConnect</a>
+    <a href="#!" class="brand-logo" style="padding-left:20px">IG Connect</a>
+      <a href="#!" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
      
       <li><a href="/dashboard"><i class="material-icons left">store</i>Home</a></li>
@@ -36,9 +38,27 @@
       <!-- Dropdown Trigger -->
       <li><a href="messages/" href="#!" data-activates="dropdown1" class="dropdown-button tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">more_vert</i></a></li>
     </ul>
+      <ul class="side-nav" id="mobile-demo">
+     
+      <li><a href="/dashboard"><i class="material-icons left">store</i>Home</a></li>
+        
+      <li><a href="/event"><i class="material-icons left">explicit</i>Event</a></li>
+
+      <li><a href="/profile/view/"><i class="material-icons left">person_pin</i>Profile</a></li>
+
+     <li><a href="/profile/view/"><i class="material-icons left">chat</i>Chat</a></li>
+
+      <!-- Dropdown Trigger -->
+<!--          <li><a href="messages/" href="#!"  class="dropdown-button tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Settings"><i class="material-icons">more_vert</i></a></li>-->
+          <li><a href="messages/" data-activates="dropdown1"><i class="material-icons left">more_vert</i>Settings</a></li>
+          
+    </ul>
   </div>
 </nav>
 </div>
+<script>
+      $(".button-collapse").sideNav();
+</script>
 
 {%block content %}
 {% endblock %}

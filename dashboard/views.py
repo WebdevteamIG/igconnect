@@ -140,41 +140,44 @@ def rate(request):
 
 
 def addProject(request):
-	if not  request.user.is_authenticated() or not request.user.is_active == True:
-		redirect("/auth/")
-	if request.method=="POST":
-		requestReceived=json.loads(request.POST.get("project"))
-		json.dumps(requestReceived)
-		projectName=requestReceived['projectName']
-		projectDescription=requestReceived['projectDescription']
-		skills=requestReceived['skills']
-		branches = requestReceived['branches']
-		skillList=[]
-		print len(branches)
-		for skillId in skills:
-			skill=Skill.objects.get(id=skillId)
-			skillList.append(skill)
-	
-		contributors=requestReceived['contributers']
-		contributorList=[]
-		for username in contributors:
-			user=User.objects.get(username=username)
-			contributorList.append(user)
-			
-		currentTimeStamp = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M')
-		project=Project(user=request.user,projectName=projectName,publishedDate=currentTimeStamp,projectDescription=projectDescription,skillList=skillList,contributorList=contributorList,branchList=branches)
-		project.save()
-		return HttpResponse()
+#    print "hello in project"
+    if not  request.user.is_authenticated() or not request.user.is_active == True:
+        redirect("/auth/")
+    if request.method=="POST":
+        requestReceived=json.loads(request.POST.get("project"))
+        json.dumps(requestReceived)
+        projectName=requestReceived['projectName']
+        projectDescription=requestReceived['projectDescription']
+        skills=requestReceived['skills']
+        branches = requestReceived['branches']
+#        projectImage = request.FILES['projectImage']
+#        shortDesc = requestReceived['shortDesc']
+        skillList=[]
+        print len(branches)
+        for skillId in skills:
+            skill=Skill.objects.get(id=skillId)
+            skillList.append(skill)
+
+        contributors=requestReceived['contributers']
+        contributorList=[]
+        for username in contributors:
+            user=User.objects.get(username=username)
+            contributorList.append(user)
+
+        currentTimeStamp = datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M')
+        project=Project(user=request.user,projectName=projectName,publishedDate=currentTimeStamp,projectDescription=projectDescription,skillList=skillList,contributorList=contributorList,branchList=branches)#,shortDesc=shortDesc,projectImage=projectImage)
+        project.save()
+        return HttpResponse()
 
 
-	else:
+    else:
 
-		users=User.objects.all();
-		skills=Skill.objects.all();
-		if request.user.is_authenticated():
-			return render(request,'dashboard/addprojects.html',{'skills':skills,'users':users,'username':request.user.username})	
-		else:
-			return redirect("/auth/")
+        users=User.objects.all();
+        skills=Skill.objects.all();
+        if request.user.is_authenticated():
+            return render(request,'dashboard/addprojects.html',{'skills':skills,'users':users,'username':request.user.username})	
+        else:
+            return redirect("/auth/")
 
 def updateProject(request):
 	if request.method=='POST':
@@ -222,81 +225,83 @@ def updateProject(request):
 
 
 def viewProject(request):
-	if not request.user.is_authenticated() or not request.user.is_active == True:
-		return redirect("/auth/")
-	if request.method=='GET':
-		uploadToken=''
-		data={}
-		if 'uploadToken' in request.GET and 'uploadToken' in request.session:
-			uploadToken=request.GET.get('uploadToken')
-			data['uploadToken']=True
+    if not request.user.is_authenticated() or not request.user.is_active == True:
+        return redirect("/auth/")
+    if request.method=='GET':
+        uploadToken=''
+        data={}
+        if 'uploadToken' in request.GET and 'uploadToken' in request.session:
+            uploadToken=request.GET.get('uploadToken')
+            data['uploadToken']=True
 
-		projectId=request.GET.get('projectId')
-		project=Project.objects.get(id=projectId)
-		data['projectId'] = project.id
-		data['projectName'] = project.projectName
-		data['projectDescription'] = project.projectDescription
-		data['skillList'] = project.skillList
-		data['contributorList'] = project.contributorList
-		data['projectUsername'] = project.user.username
-		data['isOwner'] = (request.user.username == project.user.username)
-		#print data['isOwner']
-		#print data
-		if 'uploadToken' not in request.session and 'alerted' not in request.session:
-			request.session['alerted']=True
-			return redirect('/dashboard/viewProject/?projectId='+projectId)
-		if 'uploadToken' in request.session:
-			del request.session['uploadToken']
+        projectId=request.GET.get('projectId')
+        project=Project.objects.get(id=projectId)
+        data['projectId'] = project.id
+        data['projectImage'] = project.projectImage
+        data['projectName'] = project.projectName
+        data['shortDesc'] = project.shortDesc
+        data['projectDescription'] = project.projectDescription
+        data['skillList'] = project.skillList
+        data['contributorList'] = project.contributorList
+        data['projectUsername'] = project.user.username
+        data['isOwner'] = (request.user.username == project.user.username)
+        #print data['isOwner']
+        #print data
+        if 'uploadToken' not in request.session and 'alerted' not in request.session:
+            request.session['alerted']=True
+            return redirect('/dashboard/viewProject/?projectId='+projectId)
+        if 'uploadToken' in request.session:
+            del request.session['uploadToken']
 
-		allSkills=Skill.objects.all()
-		addSkills=[]
-		for skill in allSkills:
-			flag=False
-			for skill2 in project.skillList:
-				if skill.id == skill2.id:
-					temp={
-						'belongs':1,
-						'skill':skill
-					}
-					addSkills.append(temp)
-				#	print temp
-					flag=True
-					break
-			if not flag:
-				temp={
-					'belongs':0,
-					'skill':skill
-				}
-				#print temp
-				addSkills.append(temp)
-		data['addSkills']=addSkills
+        allSkills=Skill.objects.all()
+        addSkills=[]
+        for skill in allSkills:
+            flag=False
+            for skill2 in project.skillList:
+                if skill.id == skill2.id:
+                    temp={
+                        'belongs':1,
+                        'skill':skill
+                    }
+                    addSkills.append(temp)
+                #	print temp
+                    flag=True
+                    break
+            if not flag:
+                temp={
+                    'belongs':0,
+                    'skill':skill
+                }
+                #print temp
+                addSkills.append(temp)
+        data['addSkills']=addSkills
 
 
 
-		allContributors=User.objects.all()
-		addContributors=[]
-		for contributor in allContributors:
-			flag=False
-			for contributor2 in project.contributorList:
-				if contributor.id == contributor2.id:
-					temp={
-						'belongs':1,
-						'user':contributor
-					}
-					addContributors.append(temp)
-				#	print temp
-					flag=True
-					break
-			if not flag:
-				temp={
-					'belongs':0,
-					'user':contributor
-				}
-				#print temp
-				addContributors.append(temp)
-		data['addContributors']=addContributors
-		data['fileList'] = project.fileList
-		return render(request,'dashboard/viewproject.html',data)
+        allContributors=User.objects.all()
+        addContributors=[]
+        for contributor in allContributors:
+            flag=False
+            for contributor2 in project.contributorList:
+                if contributor.id == contributor2.id:
+                    temp={
+                        'belongs':1,
+                        'user':contributor
+                    }
+                    addContributors.append(temp)
+                #	print temp
+                    flag=True
+                    break
+            if not flag:
+                temp={
+                    'belongs':0,
+                    'user':contributor
+                }
+                #print temp
+                addContributors.append(temp)
+        data['addContributors']=addContributors
+        data['fileList'] = project.fileList
+        return render(request,'dashboard/viewproject.html',data)
 
 def deleteDocument(request):
 	if not request.user.is_authenticated() or not request.user.is_active == True:
