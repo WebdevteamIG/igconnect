@@ -150,8 +150,8 @@ def addProject(request):
         projectDescription=requestReceived['projectDescription']
         skills=requestReceived['skills']
         branches = requestReceived['branches']
-#        projectImage = request.FILES['projectImage']
-#        shortDesc = requestReceived['shortDesc']
+        projectImage = requestReceived['projectImage']
+        shortDesc = requestReceived['shortDesc']
         skillList=[]
         print len(branches)
         for skillId in skills:

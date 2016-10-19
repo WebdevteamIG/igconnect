@@ -44,6 +44,8 @@ $(document).ready(function(){
         project['contributers']=contributers;
     	project['projectName']=$('#projectName').val();
     	project['projectDescription']=$('#projectDescription').val();
+        project['shortDesc']=$('#shortDesc').val();
+        project['projectImage']=document.getElementById("projectImage").value;
 
     	$.ajax({        
             type:"POST",
@@ -411,7 +413,7 @@ function addProjects(projects,category){
 
 
 
-function loadMore(x){
+function loadMore(x){                                   
     console.log(x);
     if(x == 0){
         var pageNo = $('.projectList').attr('pageNo');
